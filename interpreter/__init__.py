@@ -1,5 +1,12 @@
 import sys
 
+from .core.async_core import AsyncInterpreter
+from .core.computer.terminal.base_language import BaseLanguage
+from .core.core import OpenInterpreter
+
+interpreter = OpenInterpreter()
+computer = interpreter.computer
+
 if "--os" in sys.argv:
     from rich import print as rich_print
     from rich.markdown import Markdown
@@ -28,38 +35,57 @@ if "--os" in sys.argv:
             # Aesthetic choice. For these tags, they need a space below them
             print("")
 
-    from importlib.metadata import version
+    from importlib.metadata import version as get_version
     import requests
     from packaging import version
 
     def check_for_update():
-        # Fetch the latest version from the PyPI API
-        response = requests.get(f"https://pypi.org/pypi/open-interpreter/json")
-        latest_version = response.json()["info"]["version"]
+        try:
+            # Fetch the latest version from the PyPI API
+            response = requests.get(f"https://pypi.org/pypi/open-interpreter/json", timeout=3)
+            latest_version = response.json()["info"]["version"]
 
-        # Get the current version using importlib.metadata
-        current_version = version("open-interpreter")
+            # Get the current version using importlib.metadata
+            current_version = get_version("open-interpreter")
 
-        return version.parse(latest_version) > version.parse(current_version)
+            return version.parse(latest_version) > version.parse(current_version)
+        except:
+            # If there's any error, don't show update notification
+            return False
 
-    if check_for_update():
+    try:
+        show_update = check_for_update()
+    except:
+        show_update = False
+    
+    if show_update:
         print_markdown(
             "> **A new version of Open Interpreter is available.**\n>Please run: `pip install --upgrade open-interpreter`\n\n---"
         )
 
     if "--voice" in sys.argv:
         print("Coming soon...")
+    
+    # Check for custom provider flag or if model is configured
+    use_custom_provider = False
+    if "--os-provider" in sys.argv:
+        provider_idx = sys.argv.index("--os-provider")
+        if provider_idx + 1 < len(sys.argv):
+            provider_type = sys.argv[provider_idx + 1]
+            if provider_type == "custom":
+                use_custom_provider = True
+    elif "--model" in sys.argv or "--api_base" in sys.argv:
+        # If model or api_base is specified, consider using custom provider
+        use_custom_provider = True
+    
     from .computer_use.loop import run_async_main
-
-    run_async_main()
+    
+    # Pass interpreter if using custom provider
+    if use_custom_provider:
+        run_async_main(interpreter=interpreter)
+    else:
+        run_async_main()
     exit()
-
-from .core.async_core import AsyncInterpreter
-from .core.computer.terminal.base_language import BaseLanguage
-from .core.core import OpenInterpreter
-
-interpreter = OpenInterpreter()
-computer = interpreter.computer
 
 #     ____                      ____      __                            __
 #    / __ \____  ___  ____     /  _/___  / /____  _________  ________  / /____  _____

@@ -347,6 +347,39 @@ uvicorn server:app --reload
 
 You can also start a server identical to the one above by simply running `interpreter.server()`.
 
+## OS Mode with Custom Models
+
+OS mode now supports using any vision-capable LLM instead of being limited to Anthropic's API. This allows you to use local models, OpenAI GPT-4V, or other providers for computer control.
+
+### Usage
+
+```bash
+# Use with LM Studio (local)
+interpreter --os --model google/gemma-3-4b --api_base "http://localhost:1234/v1" --api_key "fake_key"
+
+# Use with OpenAI GPT-4V
+interpreter --os --model gpt-4-vision-preview --api_key "your-openai-key"
+
+# Use with Ollama (local)
+interpreter --os --model llava:latest --api_base "http://localhost:11434/v1" --api_key "fake"
+
+# Force Anthropic provider (original behavior)
+interpreter --os --os-provider anthropic
+```
+
+### Requirements
+
+Your model must support:
+- **Vision capabilities**: Ability to process screenshot images
+- **Function calling**: Support for tool/function calling (recommended)
+
+### Benefits
+
+- **No API costs**: Use local models completely free
+- **Privacy**: Keep all data on your machine
+- **Model choice**: Use the best model for your specific needs
+- **Offline usage**: Work without internet connectivity
+
 ## Android
 
 The step-by-step guide for installing Open Interpreter on your Android device can be found in the [open-interpreter-termux repo](https://github.com/MikeBirdTech/open-interpreter-termux).

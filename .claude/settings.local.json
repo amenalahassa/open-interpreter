@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout:*)",
+      "Bash(copy interpretercomputer_useloop.py interpretercomputer_useloop_backup.py)",
+      "Read(/C:\\c\\Users\\Public\\Documents\\Konrad/**)",
+      "Read(/C:\\c\\Users\\Public\\Documents\\Konrad/**)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": [],
+    "additionalDirectories": [
+      "C:\\c\\Users\\Public\\Documents\\Konrad"
+    ]
+  }
+}
