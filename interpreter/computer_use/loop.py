@@ -483,6 +483,7 @@ async def main(interpreter=None):
         
         def output_callback(content_block: BetaContentBlock):
             if content_block.type == "text" and content_block.text:
+                print(content_block)
                 pass  # Text is already printed in the loop
         
         def tool_output_callback(result: ToolResult, tool_id: str):

@@ -10146,4 +10146,4 @@ server = ["fastapi", "janus", "uvicorn"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.13"
-content-hash = "1fbbf0e5c243fca708d530121f804185c6732d86a9f6e4167499df3cc64afc1e"
+content-hash = "5440ccaef3bcc3909ae33a93bcc854027d30e74117c17c7cd8679747d3553d23"

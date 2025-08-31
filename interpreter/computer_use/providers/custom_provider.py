@@ -39,17 +39,17 @@ class CustomProvider(BaseProvider):
         if not self.llm._is_loaded:
             self.llm.load()
         
-        if not self.supports_vision():
-            raise ValueError(
-                f"Model {self.llm.model} does not support vision. "
-                "OS mode requires a vision-capable model."
-            )
-        
-        if not self.supports_tools():
-            print(
-                f"Warning: Model {self.llm.model} may not support tool calling. "
-                "OS mode will attempt to work with text-based function calling."
-            )
+        # if not self.supports_vision():
+        #     raise ValueError(
+        #         f"Model {self.llm.model} does not support vision. "
+        #         "OS mode requires a vision-capable model."
+        #     )
+        #
+        # if not self.supports_tools():
+        #     print(
+        #         f"Warning: Model {self.llm.model} may not support tool calling. "
+        #         "OS mode will attempt to work with text-based function calling."
+        #     )
     
     async def create_completion(
         self,
